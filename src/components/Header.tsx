@@ -13,7 +13,7 @@ const Header: React.FC = () => {
         </div>
         <div>
           <h1 className="text-lg font-medium">FaceFlux</h1>
-          <div className="text-xs text-muted-foreground">Real-time recognition</div>
+          <div className="text-xs text-muted-foreground">Advanced recognition</div>
         </div>
       </div>
       

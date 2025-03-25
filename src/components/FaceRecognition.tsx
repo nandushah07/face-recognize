@@ -12,6 +12,9 @@ interface Box {
   bottom: number;
   left: number;
   confidence?: number;
+  age?: string;
+  gender?: { type: 'male' | 'female', confidence: number };
+  emotion?: { type: 'happy' | 'sad' | 'angry' | 'neutral' | 'surprised', confidence: number };
 }
 
 const FaceRecognition: React.FC = () => {
@@ -85,13 +88,12 @@ const FaceRecognition: React.FC = () => {
     };
   }, []);
   
-  // Implement face detection (simulated for now)
+  // Implement face detection with additional features (simulated for now)
   useEffect(() => {
     if (!isActive || !isDetecting) return;
     
     const detectFaces = () => {
-      // Simulate face detection with random boxes
-      // In a real implementation, you would use a face detection library here
+      // Simulate face detection with random boxes and attributes
       const chance = Math.random();
       
       if (videoRef.current && canvasRef.current && containerRef.current) {
@@ -108,12 +110,30 @@ const FaceRecognition: React.FC = () => {
           const boxWidth = videoWidth / 3 + (Math.random() * 50);
           const boxHeight = videoHeight / 3 + (Math.random() * 50);
           
+          // Generate random age
+          const ageGroups = ['18-24', '25-32', '33-45', '46-60', '60+'];
+          const randomAge = ageGroups[Math.floor(Math.random() * ageGroups.length)];
+          
+          // Generate random gender
+          const genderTypes: ('male' | 'female')[] = ['male', 'female'];
+          const randomGender = genderTypes[Math.floor(Math.random() * genderTypes.length)];
+          const genderConfidence = 0.7 + (Math.random() * 0.3);
+          
+          // Generate random emotion
+          const emotionTypes: ('happy' | 'sad' | 'angry' | 'neutral' | 'surprised')[] = 
+            ['happy', 'sad', 'angry', 'neutral', 'surprised'];
+          const randomEmotion = emotionTypes[Math.floor(Math.random() * emotionTypes.length)];
+          const emotionConfidence = 0.6 + (Math.random() * 0.4);
+          
           setBoxes([{
             left: centerX - boxWidth / 2,
             top: centerY - boxHeight / 2,
             right: centerX + boxWidth / 2,
             bottom: centerY + boxHeight / 2,
-            confidence: 0.8 + (Math.random() * 0.2)
+            confidence: 0.8 + (Math.random() * 0.2),
+            age: randomAge,
+            gender: { type: randomGender, confidence: genderConfidence },
+            emotion: { type: randomEmotion, confidence: emotionConfidence }
           }]);
         } else {
           // Multiple faces
@@ -126,12 +146,28 @@ const FaceRecognition: React.FC = () => {
             const boxWidth = videoWidth / 4 + (Math.random() * 50);
             const boxHeight = videoHeight / 4 + (Math.random() * 50);
             
+            // Generate random attributes for each face
+            const ageGroups = ['18-24', '25-32', '33-45', '46-60', '60+'];
+            const randomAge = ageGroups[Math.floor(Math.random() * ageGroups.length)];
+            
+            const genderTypes: ('male' | 'female')[] = ['male', 'female'];
+            const randomGender = genderTypes[Math.floor(Math.random() * genderTypes.length)];
+            const genderConfidence = 0.7 + (Math.random() * 0.3);
+            
+            const emotionTypes: ('happy' | 'sad' | 'angry' | 'neutral' | 'surprised')[] = 
+              ['happy', 'sad', 'angry', 'neutral', 'surprised'];
+            const randomEmotion = emotionTypes[Math.floor(Math.random() * emotionTypes.length)];
+            const emotionConfidence = 0.6 + (Math.random() * 0.4);
+            
             newBoxes.push({
               left: centerX - boxWidth / 2,
               top: centerY - boxHeight / 2,
               right: centerX + boxWidth / 2,
               bottom: centerY + boxHeight / 2,
-              confidence: 0.6 + (Math.random() * 0.4)
+              confidence: 0.6 + (Math.random() * 0.4),
+              age: randomAge,
+              gender: { type: randomGender, confidence: genderConfidence },
+              emotion: { type: randomEmotion, confidence: emotionConfidence }
             });
           }
           
